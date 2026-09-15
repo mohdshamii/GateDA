@@ -1,70 +1,109 @@
-# GATE DA
+<div align="center">
 
-A structured preparation repository for the GATE Data Science and Artificial Intelligence (DA) examination.
+```
+ ██████╗  █████╗ ████████╗███████╗    ██████╗  █████╗ 
+██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝    ██╔══██╗██╔══██╗
+██║  ███╗███████║   ██║   █████╗      ██║  ██║███████║
+██║   ██║██╔══██║   ██║   ██╔══╝      ██║  ██║██╔══██║
+╚██████╔╝██║  ██║   ██║   ███████╗    ██████╔╝██║  ██║
+ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝    ╚═════╝ ╚═╝  ╚═╝
+```
 
-## Objectives
+###  one brain. one battlefield. one Rank. 
 
-- Build strong conceptual foundations
-- Cover the complete GATE DA syllabus
-- Practice topic-wise and mixed problems
-- Solve previous year questions
-- Revise concepts regularly
-- Track preparation progress
-- Improve problem-solving speed and accuracy
+*"They said Data Science + AI in one exam. I said 'bet.'"*
 
-## Subjects
+![Status](https://img.shields.io/badge/STATUS-COOKING-orange?style=for-the-badge)
+![Sleep](https://img.shields.io/badge/SLEEP-OPTIONAL-red?style=for-the-badge)
+![Coffee](https://img.shields.io/badge/COFFEE-CRITICAL_RESOURCE-brown?style=for-the-badge)
+![Negative_Marking](https://img.shields.io/badge/NEGATIVE_MARKING-MORTAL_ENEMY-black?style=for-the-badge)
+![Vibe](https://img.shields.io/badge/VIBE-DELUSIONAL_CONFIDENCE-blueviolet?style=for-the-badge)
 
-- Mathematics
-- Probability and Statistics
-- Programming
-- Data Structures and Algorithms
-- Database Management Systems
-- Machine Learning
-- Artificial Intelligence
-- Data Science
-- General Aptitude
+</div>
 
-## Repository Structure
+---
 
-GateDA/
-├── README.md
-├── 01_Day.pdf
-├── 02_Day.pdf
-├── Mathematics/
-├── Probability-Statistics/
-├── Programming/
-├── Data-Structures/
-├── Database-Management-Systems/
-├── Machine-Learning/
-├── Artificial-Intelligence/
-├── Data-Science/
-├── Aptitude/
-├── PYQs/
-├── Practice/
-└── Mock-Tests/
+##  READ THIS BEFORE ENTERING THE REPO
 
-## Tools
+You have stumbled into the war room of one (1) engineering student who looked at the GATE DA syllabus — Math, Probability, ML, AI, Programming, DSA, DBMS, and General Aptitude, ALL IN ONE PAPER — and instead of crying, opened VS Code.
 
-- Python
-- NumPy
-- Pandas
-- Scikit-learn
-- Jupyter Notebook
-- Git
-- GitHub
+This is not a "notes" repo. This is a **siege log**.
 
-## Purpose
+---
 
-This repository is maintained as a structured record of my GATE DA preparation, including study material, notes, practice questions, PYQs, and mock-test preparation.
+## 📖 THE LORE
 
-## Author
+> In a land of 65 questions and 100 marks, one Data Science engineer dared to ask:
+> *"What if I just... learned all of it?"*
+>
+> The syllabus laughed. The syllabus does not laugh anymore.
 
-Mohd Shami
+**Current arc:** Backlog Clearing Saga — Day 00 through Day 03 have fallen. More are being farmed daily.
 
-B.Tech Data Science
+---
 
-GitHub: https://github.com/mohdshamii
+##  OBJECTIVES (a.k.a. The Terms and Conditions of Winning)
 
-## Progress Principle
+- [x] Build strong conceptual foundations (allegedly)
+- [x] Cover the complete GATE DA syllabus (send help)
+- [x] Practice topic-wise and mixed problems
+- [x] Solve previous year questions like they owe me money
+- [x] Revise concepts regularly (spaced repetition, not spaced procrastination)
+- [x] Track preparation progress (this repo IS the tracker)
+- [x] Improve problem-solving speed and accuracy (currently: fast AND wrong, working on it)
 
-Consistency, conceptual clarity, regular practice, and continuous revision.
+---
+
+##  THE SUBJECTS (a.k.a. The Final Boss Roster)
+
+```
+Mathematics              → the eternal underworld
+Probability & Statistics → schrödinger's marks
+Programming              → Python, my only friend
+Data Structures & Algos  → stacks on stacks on stacks
+Database Management      → SQL whispers in my dreams
+Machine Learning         → gradient descent into madness
+Artificial Intelligence  → A* search, but for my sanity
+Data Science             → vibes, but with p-values
+General Aptitude         → the free real estate section
+```
+
+---
+
+##  LIVE PREPARATION STATUS
+
+```
+[███████████████░░░░░░░░░░░░░░░░░░░░░░░] ~40%
+STATUS: Ahead of the syllabus, behind on sleep.
+```
+
+**Current mood:** functioning on complexity drills and spite.
+
+**Negative marking policy:** personal, and I take it personally.
+
+---
+
+##  RULES OF THIS REPO
+
+1. Every PDF added = one day survived.
+2. If a topic isn't in here, it either hasn't attacked yet or I've already forgotten it existed (see: Rule 3).
+3. Rule 3 does not exist. I skipped it under exam pressure. This is on brand.
+4. PYQs are sacred. Mock tests are sacred. Sleep is a rumor.
+5. `git commit -m "studied"` is not a valid commit message and yet here we are.
+
+---
+
+## 🏁 END GOAL
+
+```
+INPUT:  60 days, 8 subjects, 1 nervous system
+OUTPUT: a rank card I can show my relatives without flinching
+```
+
+<div align="center">
+
+**made with a mild caffeine-induced sense of invincibility**
+
+*— mohdshamii*
+
+</div>
