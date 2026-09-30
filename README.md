@@ -70,13 +70,6 @@ General Aptitude         → the free real estate section
 
 ---
 
-##  LIVE PREPARATION STATUS
-
-```
-[███████████████░░░░░░░░░░░░░░░░░░░░░░░] ~40%
-STATUS: Ahead of the syllabus, behind on sleep.
-```
-
 **Current mood:** functioning on complexity drills and spite.
 
 **Negative marking policy:** personal, and I take it personally.
