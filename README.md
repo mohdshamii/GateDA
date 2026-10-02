@@ -31,7 +31,7 @@ This is not a "notes" repo. This is a **siege log**.
 
 ---
 
-## 📖 THE LORE
+## THE LORE
 
 > In a land of 65 questions and 100 marks, one Data Science engineer dared to ask:
 > *"What if I just... learned all of it?"*
