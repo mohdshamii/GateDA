@@ -86,7 +86,7 @@ General Aptitude         → the free real estate section
 
 ---
 
-## 🏁 END GOAL
+##  END GOAL
 
 ```
 INPUT:  60 days, 8 subjects, 1 nervous system
@@ -97,6 +97,6 @@ OUTPUT: a rank card I can show my relatives without flinching
 
 **made with a mild caffeine-induced sense of invincibility**
 
-*— mohdshamii*
+*— mohdshamii* https://mohdshamii.github.io/GateDA/
 
 </div>
