@@ -100,6 +100,8 @@
   .msg { background: var(--panel); border: 1px dashed var(--line); border-radius: 12px; padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
   .msg.err { border-color: #c2410c; }
 
+  .new { font-style: normal; font-size: 0.72rem; font-weight: 600; background: var(--accent); color: var(--accent-ink); padding: 0.1rem 0.5rem; border-radius: 99px; margin-left: 0.4rem; vertical-align: middle; }
+  .link { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline; }
   footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.82rem; text-align: center; }
 
   @media (max-width: 520px) {
@@ -136,13 +138,14 @@
 
   <div id="list"><div class="msg">Loading files from GitHub...</div></div>
 
-  <footer>New PDFs added to the repository show up here automatically.</footer>
+  <footer><span id="status">Checking for new PDFs...</span> <button class="link" id="refreshBtn" type="button">Check now</button></footer>
 </div>
 
 <script>
 (function () {
   const OWNER = 'mohdshamii', REPO = 'GateDA', BRANCH = 'main';
-  const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents?ref=${BRANCH}`;
+  const API = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+  const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
 
   const SECTIONS = [
     { key: 'main', title: 'Main study' },
@@ -212,7 +215,7 @@
             <div class="bar"><span style="width:${pct}%"></span></div>
             <small>${finished} of ${main.length} main days done</small>
           </div>
-          ${next ? `<a class="open" href="${esc(url(next))}" target="_blank" rel="noopener">Open PDF</a>` : ''}
+          ${next ? `<a class="open" data-n="${esc(next.name)}" href="${esc(url(next))}" target="_blank" rel="noopener">Open PDF</a>` : ''}
         </div>
       </div>`;
   }
@@ -221,8 +224,8 @@
     return `
       <li class="${done[f.name] ? 'done' : ''}">
         <input type="checkbox" data-n="${esc(f.name)}" ${done[f.name] ? 'checked' : ''} aria-label="Mark ${esc(title(f.name))} as done">
-        <div class="name"><b>${esc(title(f.name))}</b><span>${esc(f.name)}</span></div>
-        <a class="open quiet" href="${esc(url(f))}" target="_blank" rel="noopener">Open</a>
+        <div class="name"><b>${esc(title(f.name))}${isNew(f) ? '<em class="new">New</em>' : ''}</b><span>${esc(f.path)}</span></div>
+        <a class="open quiet" data-n="${esc(f.name)}" href="${esc(url(f))}" target="_blank" rel="noopener">Open</a>
       </li>`;
   }
 
@@ -270,16 +273,59 @@
     render();
   });
 
-  /* ---------- load ---------- */
-  fetch(API)
-    .then(r => { if (!r.ok) throw new Error('GitHub returned status ' + r.status); return r.json(); })
-    .then(data => {
-      files = data.filter(i => i.type === 'file' && /\.pdf$/i.test(i.name));
+  /* ---------- new-file tracking ---------- */
+  let seen = null;
+  try { seen = JSON.parse(store.get('seen') || 'null'); } catch (e) {}
+  const isNew = f => !!seen && !seen[f.name];
+  function markSeen(n) {
+    if (seen && !seen[n]) { seen[n] = 1; store.set('seen', JSON.stringify(seen)); }
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[data-n]');
+    if (a) { markSeen(a.dataset.n); setTimeout(render, 0); }
+  });
+
+  /* ---------- load (always fresh from GitHub) ---------- */
+  const statusEl = $('status');
+  const fromTree = tree => tree
+    .filter(i => i.type === 'blob' && /\.pdf$/i.test(i.path))
+    .map(i => ({
+      name: i.path.split('/').pop(),
+      path: i.path,
+      download_url: RAW + i.path.split('/').map(encodeURIComponent).join('/')
+    }));
+
+  async function load() {
+    statusEl.textContent = 'Checking for new PDFs...';
+    try {
+      const r = await fetch(API, { cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status === 403 ? 'GitHub rate limit reached, try again in a few minutes' : 'GitHub returned status ' + r.status);
+      const data = await r.json();
+      files = fromTree(data.tree || []);
+      store.set('cache', JSON.stringify(files));
+      if (!seen) { seen = {}; files.forEach(f => seen[f.name] = 1); store.set('seen', JSON.stringify(seen)); }
       render();
-    })
-    .catch(err => {
-      listEl.innerHTML = `<div class="msg err">Could not load files. ${esc(err.message)}. Check your connection and refresh the page.</div>`;
-    });
+      statusEl.textContent = 'Up to date. Last checked ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '.';
+    } catch (err) {
+      if (files.length) {
+        statusEl.textContent = err.message + '. Showing the last saved list.';
+      } else {
+        listEl.innerHTML = `<div class="msg err">Could not load files. ${esc(err.message)}. Check your connection, then press Check now.</div>`;
+        statusEl.textContent = '';
+      }
+    }
+  }
+
+  // show the saved list instantly, then fetch the latest
+  try {
+    const cached = JSON.parse(store.get('cache') || 'null');
+    if (Array.isArray(cached) && cached.length) { files = cached; render(); }
+  } catch (e) {}
+
+  load();
+  $('refreshBtn').addEventListener('click', load);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+  setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
 })();
 </script>
 </body>
