@@ -1,550 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Study · GATE DA</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GATE DA Study</title>
+<style>
+  :root {
+    --bg: #f4f6f7;
+    --panel: #ffffff;
+    --ink: #1b2430;
+    --muted: #5d6b7a;
+    --line: #dde3e8;
+    --accent: #0f766e;
+    --accent-ink: #ffffff;
+    --accent-soft: #e0f2ef;
+    --done: #8a97a5;
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181d;
+    --panel: #1b2128;
+    --ink: #e7ecf1;
+    --muted: #93a1b0;
+    --line: #2b343e;
+    --accent: #4fd1c0;
+    --accent-ink: #0c1a18;
+    --accent-soft: #1c2f2d;
+    --done: #6c7886;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: 2rem 1rem 4rem;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    body {
-      background: #0b0f1c;
-      color: #eef2fb;
-      padding: 2rem 1rem 3rem;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  /* header */
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+  h1 { font: 600 2rem/1.2 Georgia, "Times New Roman", serif; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 0.95rem; margin-top: 0.25rem; }
+  .theme-btn {
+    background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 8px; padding: 0.45rem 0.8rem; font-size: 0.9rem; cursor: pointer; white-space: nowrap;
+  }
+  .theme-btn:hover { border-color: var(--accent); }
 
-    .container {
-      max-width: 1000px;
-      width: 100%;
-    }
+  /* continue block */
+  .next {
+    background: var(--accent-soft); border: 1px solid var(--accent);
+    border-radius: 12px; padding: 1.25rem 1.4rem; margin-bottom: 1.75rem;
+  }
+  .next p { color: var(--muted); font-size: 0.9rem; }
+  .next h2 { font: 600 1.6rem/1.3 Georgia, serif; margin: 0.15rem 0 0.9rem; }
+  .next .row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .progress { flex: 1; min-width: 160px; }
+  .bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+  .progress small { color: var(--muted); font-size: 0.82rem; display: block; margin-top: 0.35rem; }
 
-    /* header */
-    .header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid #2a3145;
-      padding-bottom: 1rem;
-    }
+  .open {
+    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; white-space: nowrap;
+  }
+  .open:hover { filter: brightness(1.08); }
+  .open.quiet { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 0.35rem 0.8rem; font-weight: 500; font-size: 0.88rem; }
+  .open.quiet:hover { border-color: var(--accent); filter: none; }
 
-    .title {
-      font-size: 1.9rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      background: linear-gradient(135deg, #a29bfe, #6c8cff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+  /* toolbar */
+  .tools { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .search {
+    width: 100%; background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 8px; padding: 0.7rem 1rem; font-size: 1rem;
+  }
+  .search::placeholder { color: var(--muted); }
+  .tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tab {
+    background: transparent; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 99px; padding: 0.35rem 0.95rem; font-size: 0.9rem; cursor: pointer;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-    .sub {
-      color: #8d99b0;
-      font-size: 0.95rem;
-      margin-top: 4px;
-    }
+  /* list */
+  section { margin-bottom: 2rem; }
+  h3 { font: 600 1.15rem/1.3 Georgia, serif; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: baseline; }
+  h3 small { font: 400 0.85rem system-ui, sans-serif; color: var(--muted); }
+  ul { list-style: none; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  li { display: flex; align-items: center; gap: 0.9rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); }
+  li:last-child { border-bottom: 0; }
+  li input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex: none; }
+  .name { flex: 1; min-width: 0; }
+  .name b { font-weight: 600; display: block; overflow-wrap: anywhere; }
+  .name span { color: var(--muted); font-size: 0.82rem; overflow-wrap: anywhere; }
+  li.done .name b { color: var(--done); text-decoration: line-through; text-decoration-thickness: 1px; }
 
-    .github-info {
-      font-size: 0.85rem;
-      background: #1a1f30;
-      padding: 8px 14px;
-      border-radius: 30px;
-      color: #b7c2db;
-      border: 1px solid #2c3448;
-    }
+  .msg { background: var(--panel); border: 1px dashed var(--line); border-radius: 12px; padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
+  .msg.err { border-color: #c2410c; }
 
-    .github-info span {
-      color: #7c8cff;
-      font-weight: 500;
-    }
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.82rem; text-align: center; }
 
-    /* stats row */
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: #131a2c;
-      border: 1px solid #272f44;
-      border-radius: 18px;
-      padding: 1rem 1.5rem;
-      flex: 1 1 160px;
-      box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
-    }
-
-    .stat-card .label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #7f8da8;
-      margin-bottom: 6px;
-    }
-
-    .stat-card .value {
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      color: #ffffff;
-    }
-
-    .stat-card .small {
-      font-size: 0.8rem;
-      color: #8d99b0;
-      margin-top: 4px;
-    }
-
-    /* filter/search */
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .search-box {
-      flex: 2;
-      min-width: 200px;
-      background: #131a2c;
-      border: 1px solid #2b3348;
-      border-radius: 40px;
-      padding: 10px 18px;
-      color: white;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .search-box::placeholder {
-      color: #5f6b85;
-    }
-
-    .search-box:focus {
-      border-color: #6c8cff;
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: #1a1f30;
-      border: 1px solid #2b3348;
-      color: #cbd5e8;
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .filter-btn.active {
-      background: #2f3b5e;
-      border-color: #6c8cff;
-      color: white;
-    }
-
-    .filter-btn:hover {
-      background: #232b40;
-    }
-
-    /* resource grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .card {
-      background: #131a2c;
-      border: 1px solid #272f44;
-      border-radius: 20px;
-      padding: 1.2rem 1.2rem 1rem;
-      display: flex;
-      flex-direction: column;
-      transition: 0.15s;
-      box-shadow: 0 6px 14px -6px #00000055;
-    }
-
-    .card:hover {
-      border-color: #3a4668;
-      background: #161e33;
-    }
-
-    .card-title {
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 6px;
-      word-break: break-word;
-      line-height: 1.4;
-    }
-
-    .card-meta {
-      font-size: 0.75rem;
-      color: #7f8da8;
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      background: #1f2942;
-      border-radius: 40px;
-      padding: 2px 10px;
-      font-size: 0.7rem;
-      color: #b0bfe0;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .badge.main { background: #1e3a5f; color: #99c2ff; }
-    .badge.py { background: #2c3f2c; color: #a5e0a5; }
-    .badge.test { background: #4a2e2e; color: #ffb3b3; }
-
-    .card-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      background: #21293f;
-      border: none;
-      border-radius: 40px;
-      padding: 8px 14px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #e2e9fd;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: 0.1s;
-      border: 1px solid #2a3248;
-      flex: 1;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #5f7cff, #7c6cff);
-      border: none;
-      color: white;
-      font-weight: 500;
-    }
-
-    .btn-primary:hover {
-      opacity: 0.9;
-      transform: scale(1.01);
-    }
-
-    .btn:hover {
-      background: #2c344d;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #6d88ff, #8a7aff);
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 3rem 2rem;
-      background: #101624;
-      border-radius: 30px;
-      color: #7f8da8;
-      border: 1px dashed #2c3448;
-      font-size: 1rem;
-    }
-
-    .footer {
-      margin-top: 3rem;
-      font-size: 0.75rem;
-      color: #4f5a73;
-      text-align: center;
-      border-top: 1px solid #20273a;
-      padding-top: 1.5rem;
-    }
-
-    /* loading spinner */
-    .loader {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 3rem 1rem;
-      color: #a4b1cf;
-      font-size: 0.95rem;
-    }
-
-    .spinner {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 3px solid #2a3145;
-      border-top-color: #7c8cff;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .note {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: #6a7692;
-      background: #0f1422;
-      padding: 12px 18px;
-      border-radius: 40px;
-      border: 1px solid #1e263b;
-      text-align: center;
-    }
-
-    .note strong {
-      color: #a4b1cf;
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 1.25rem 0.75rem 2rem; }
-      .header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
-      .title { font-size: 1.6rem; }
-      .stat-card .value { font-size: 1.6rem; }
-      .grid { grid-template-columns: 1fr; }
-      .toolbar { flex-direction: column; align-items: stretch; }
-      .filter-buttons { justify-content: flex-start; }
-    }
-  </style>
+  @media (max-width: 520px) {
+    body { padding-top: 1.25rem; }
+    h1 { font-size: 1.6rem; }
+    .next h2 { font-size: 1.4rem; }
+    .open.quiet { padding: 0.35rem 0.65rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
+<div class="wrap">
+
+  <header>
     <div>
-      <div class="title">📚 Personal Study</div>
-      <div class="sub">GATE DA · daily resources from GitHub</div>
+      <h1>GATE DA Study</h1>
+      <p class="sub">Daily PDFs from your GitHub repository</p>
     </div>
-    <div class="github-info">
-      🔗 <span id="repoLabel">mohdshamii/GateDA</span> · main
+    <button class="theme-btn" id="themeBtn" type="button">Dark mode</button>
+  </header>
+
+  <div id="next"></div>
+
+  <div class="tools">
+    <input class="search" id="search" type="search" placeholder="Search by day or name" aria-label="Search files">
+    <div class="tabs" id="tabs">
+      <button class="tab" data-f="all" aria-pressed="true">All</button>
+      <button class="tab" data-f="main" aria-pressed="false">Main study</button>
+      <button class="tab" data-f="py" aria-pressed="false">Python and DSA</button>
+      <button class="tab" data-f="test" aria-pressed="false">Tests</button>
     </div>
   </div>
 
-  <!-- stats -->
-  <div class="stats">
-    <div class="stat-card">
-      <div class="label">Total PDFs</div>
-      <div class="value" id="totalCount">0</div>
-      <div class="small">from repository</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Main study</div>
-      <div class="value" id="mainCount">0</div>
-      <div class="small">60‑day modules</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Python + DSA</div>
-      <div class="value" id="pyCount">0</div>
-      <div class="small">daily coding</div>
-    </div>
-  </div>
+  <div id="list"><div class="msg">Loading files from GitHub...</div></div>
 
-  <!-- toolbar -->
-  <div class="toolbar">
-    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search PDF files…">
-    <div class="filter-buttons">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="main">Main</button>
-      <button class="filter-btn" data-filter="py">Python+DSA</button>
-      <button class="filter-btn" data-filter="test">Tests</button>
-    </div>
-  </div>
-
-  <!-- resource container -->
-  <div id="resourceContainer">
-    <div class="loader">
-      <div class="spinner"></div>
-      <span>Fetching PDF files from GitHub…</span>
-    </div>
-  </div>
-
-  <div class="note">
-    <strong>⚡ Auto‑updated</strong> — files are read directly from the repository. No manual editing needed.
-  </div>
-
-  <div class="footer">
-    personal study dashboard · GATE DA · resources from GitHub
-  </div>
+  <footer>New PDFs added to the repository show up here automatically.</footer>
 </div>
 
 <script>
-  (function() {
-    // ---------- CONFIG ----------
-    const GITHUB_OWNER = 'mohdshamii';
-    const GITHUB_REPO = 'GateDA';
-    const BRANCH = 'main';
-    const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents?ref=${BRANCH}`;
+(function () {
+  const OWNER = 'mohdshamii', REPO = 'GateDA', BRANCH = 'main';
+  const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents?ref=${BRANCH}`;
 
-    // State
-    let allFiles = [];           // { name, download_url, type, size }
-    let filteredFiles = [];
-    let currentFilter = 'all';
-    let searchQuery = '';
+  const SECTIONS = [
+    { key: 'main', title: 'Main study' },
+    { key: 'py',   title: 'Python and DSA' },
+    { key: 'test', title: 'Tests' },
+    { key: 'other', title: 'Other' }
+  ];
 
-    // DOM elements
-    const container = document.getElementById('resourceContainer');
-    const totalCountEl = document.getElementById('totalCount');
-    const mainCountEl = document.getElementById('mainCount');
-    const pyCountEl = document.getElementById('pyCount');
-    const searchInput = document.getElementById('searchInput');
-    const filterBtns = document.querySelectorAll('.filter-btn');
+  let files = [], filter = 'all', query = '', done = {};
 
-    // ---------- helper: categorize file ----------
-    function getCategory(filename) {
-      const lower = filename.toLowerCase();
-      // main: something like "01_Day.pdf", "12_Day.pdf"
-      if (/^\d{2}_day\.pdf$/i.test(filename)) return 'main';
-      // python/dsa: "01_DayOfPythonDSA.pdf", "02_DayOfPythonDSA.pdf"
-      if (/^\d{2}_dayofpython/i.test(filename) || /python/i.test(filename)) return 'py';
-      // tests: weekly, major, mock, test
-      if (/weekly|major|mock|test/i.test(filename)) return 'test';
-      return 'other';
-    }
+  const $ = id => document.getElementById(id);
+  const listEl = $('list'), nextEl = $('next');
 
-    // ---------- format display name ----------
-    function prettyName(filename) {
-      // remove .pdf and underscores, camelCase
-      let base = filename.replace(/\.pdf$/i, '');
-      base = base.replace(/_/g, ' ');
-      // insert space between lowercase and uppercase (camel)
-      base = base.replace(/([a-z])([A-Z])/g, '$1 $2');
-      // capitalize each word
-      return base.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
-    }
+  /* ---------- safe storage ---------- */
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
 
-    // ---------- render cards ----------
-    function render() {
-      if (!allFiles.length) {
-        container.innerHTML = `<div class="empty">📭 No PDF resources found in the repository.<br><small>Make sure PDF files exist in the root of the main branch.</small></div>`;
-        updateStats(0, 0, 0);
-        return;
-      }
+  /* ---------- theme ---------- */
+  const root = document.documentElement;
+  const themeBtn = $('themeBtn');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeBtn.textContent = t === 'dark' ? 'Light mode' : 'Dark mode';
+    store.set('theme', t);
+  }
+  setTheme(store.get('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
-      // apply filter + search
-      let list = allFiles.filter(f => f.name.toLowerCase().endsWith('.pdf'));
-      if (currentFilter !== 'all') {
-        list = list.filter(f => getCategory(f.name) === currentFilter);
-      }
-      if (searchQuery.trim() !== '') {
-        const q = searchQuery.trim().toLowerCase();
-        list = list.filter(f => f.name.toLowerCase().includes(q) || prettyName(f.name).toLowerCase().includes(q));
-      }
+  /* ---------- progress memory ---------- */
+  try { done = JSON.parse(store.get('done') || '{}'); } catch (e) { done = {}; }
 
-      // update stats
-      const total = allFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
-      const mainTotal = allFiles.filter(f => getCategory(f.name) === 'main').length;
-      const pyTotal = allFiles.filter(f => getCategory(f.name) === 'py').length;
-      updateStats(total, mainTotal, pyTotal);
+  /* ---------- helpers ---------- */
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 
-      if (list.length === 0) {
-        container.innerHTML = `<div class="empty">🔍 No resources match your filter.</div>`;
-        return;
-      }
+  function category(name) {
+    if (/^\d+_day\.pdf$/i.test(name)) return 'main';
+    if (/python|dsa/i.test(name)) return 'py';
+    if (/weekly|major|mock|test/i.test(name)) return 'test';
+    return 'other';
+  }
 
-      // build grid
-      let html = '<div class="grid">';
-      list.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  function title(name) {
+    const m = name.match(/^(\d+)_day/i);
+    if (m) return 'Day ' + m[1];
+    return name.replace(/\.pdf$/i, '').replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2')
+      .split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
 
-      for (let file of list) {
-        const cat = getCategory(file.name);
-        let badgeClass = 'badge';
-        let badgeText = 'OTHER';
-        if (cat === 'main') { badgeClass += ' main'; badgeText = 'MAIN'; }
-        else if (cat === 'py') { badgeClass += ' py'; badgeText = 'PYTHON+DSA'; }
-        else if (cat === 'test') { badgeClass += ' test'; badgeText = 'TEST'; }
+  const url = f => f.download_url || `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodeURIComponent(f.name)}`;
+  const byName = (a, b) => a.name.localeCompare(b.name, undefined, { numeric: true });
 
-        const downloadUrl = file.download_url || `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${BRANCH}/${file.name}`;
-
-        html += `
-          <div class="card">
-            <div class="card-title">${prettyName(file.name)}</div>
-            <div class="card-meta">
-              <span class="${badgeClass}">${badgeText}</span>
-              <span>📄 ${file.name}</span>
-            </div>
-            <div class="card-actions">
-              <a class="btn btn-primary" href="${downloadUrl}" target="_blank" rel="noopener">📖 Open PDF</a>
-            </div>
+  /* ---------- render ---------- */
+  function renderNext() {
+    const main = files.filter(f => category(f.name) === 'main').sort(byName);
+    if (!main.length) { nextEl.innerHTML = ''; return; }
+    const finished = main.filter(f => done[f.name]).length;
+    const next = main.find(f => !done[f.name]);
+    const pct = Math.round(finished / main.length * 100);
+    nextEl.innerHTML = `
+      <div class="next">
+        <p>${next ? 'Continue with' : 'All main study days finished'}</p>
+        <h2>${next ? esc(title(next.name)) : 'Well done'}</h2>
+        <div class="row">
+          <div class="progress">
+            <div class="bar"><span style="width:${pct}%"></span></div>
+            <small>${finished} of ${main.length} main days done</small>
           </div>
-        `;
-      }
-      html += '</div>';
-      container.innerHTML = html;
+          ${next ? `<a class="open" href="${esc(url(next))}" target="_blank" rel="noopener">Open PDF</a>` : ''}
+        </div>
+      </div>`;
+  }
+
+  function row(f) {
+    return `
+      <li class="${done[f.name] ? 'done' : ''}">
+        <input type="checkbox" data-n="${esc(f.name)}" ${done[f.name] ? 'checked' : ''} aria-label="Mark ${esc(title(f.name))} as done">
+        <div class="name"><b>${esc(title(f.name))}</b><span>${esc(f.name)}</span></div>
+        <a class="open quiet" href="${esc(url(f))}" target="_blank" rel="noopener">Open</a>
+      </li>`;
+  }
+
+  function render() {
+    renderNext();
+    const q = query.trim().toLowerCase();
+    const shown = files.filter(f =>
+      (filter === 'all' || category(f.name) === filter) &&
+      (!q || f.name.toLowerCase().includes(q) || title(f.name).toLowerCase().includes(q))
+    );
+
+    if (!files.length) {
+      listEl.innerHTML = '<div class="msg">No PDFs found in the repository root. Add a PDF to the main branch and refresh.</div>';
+      return;
+    }
+    if (!shown.length) {
+      listEl.innerHTML = '<div class="msg">Nothing matches. Clear the search or pick another tab.</div>';
+      return;
     }
 
-    function updateStats(total, main, py) {
-      totalCountEl.textContent = total;
-      mainCountEl.textContent = main;
-      pyCountEl.textContent = py;
-    }
+    listEl.innerHTML = SECTIONS.map(s => {
+      const items = shown.filter(f => category(f.name) === s.key).sort(byName);
+      if (!items.length) return '';
+      const d = items.filter(f => done[f.name]).length;
+      return `<section><h3>${s.title}<small>${d} of ${items.length} done</small></h3><ul>${items.map(row).join('')}</ul></section>`;
+    }).join('');
+  }
 
-    // ---------- fetch from GitHub API ----------
-    async function fetchResources() {
-      try {
-        const resp = await fetch(API_URL);
-        if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
-        const data = await resp.json();
+  /* ---------- events ---------- */
+  listEl.addEventListener('change', e => {
+    const n = e.target.dataset && e.target.dataset.n;
+    if (!n) return;
+    if (e.target.checked) done[n] = 1; else delete done[n];
+    store.set('done', JSON.stringify(done));
+    render();
+  });
 
-        // filter only PDF files (type === 'file')
-        allFiles = data.filter(item => item.type === 'file' && item.name.toLowerCase().endsWith('.pdf'));
+  $('search').addEventListener('input', e => { query = e.target.value; render(); });
 
-        // if no PDFs, maybe show a message
-        if (allFiles.length === 0) {
-          console.warn('No PDF files found in repository root.');
-        }
+  $('tabs').addEventListener('click', e => {
+    const b = e.target.closest('.tab');
+    if (!b) return;
+    filter = b.dataset.f;
+    document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-pressed', t === b));
+    render();
+  });
 
-        // initial render
-        render();
-      } catch (err) {
-        console.error('Failed to load repository contents:', err);
-        container.innerHTML = `<div class="empty">⚠️ Could not load resources from GitHub.<br><small>${err.message}</small><br><br>🔁 Try refreshing the page.</div>`;
-        updateStats(0, 0, 0);
-      }
-    }
-
-    // ---------- event listeners ----------
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
+  /* ---------- load ---------- */
+  fetch(API)
+    .then(r => { if (!r.ok) throw new Error('GitHub returned status ' + r.status); return r.json(); })
+    .then(data => {
+      files = data.filter(i => i.type === 'file' && /\.pdf$/i.test(i.name));
       render();
+    })
+    .catch(err => {
+      listEl.innerHTML = `<div class="msg err">Could not load files. ${esc(err.message)}. Check your connection and refresh the page.</div>`;
     });
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
-        render();
-      });
-    });
-
-    // ---------- initial fetch ----------
-    fetchResources();
-  })();
+})();
 </script>
 </body>
 </html>
