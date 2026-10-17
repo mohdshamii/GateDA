@@ -11,7 +11,7 @@
 ![PYQs](https://img.shields.io/badge/PYQs-TILL_GATE_2025-green?style=for-the-badge)
 ![Access](https://img.shields.io/badge/ACCESS-PUBLIC_NO_LOGIN-brightgreen?style=for-the-badge)
 
-[🌐 Website](https://mohdshamii.github.io/GateDA/) · [📥 Notes](#-notes) · [🗺️ Plan](#-the-plan) · [🤝 Contribute](#-contribute)
+[ Website](https://mohdshamii.github.io/GateDA/) · [ Notes](#-notes) · [ Plan](#-the-plan) · [ Contribute](#-contribute)
 
 </div>
 
@@ -28,7 +28,7 @@ A **topic-wise, exam-focused** resource for the **GATE Data Science & Artificial
 
 ---
 
-## 📥 Notes
+##  Notes
 
 | # | Subject | Download | What you get |
 |---|---------|----------|--------------|
@@ -90,13 +90,13 @@ OUTPUT: a rank card I can show my relatives without flinching
 
 ---
 
-## 🤝 Contribute
+##  Contribute
 
 Found a mistake or have better notes?
 
-**Fork → Improve → Pull Request.** All contributions are welcome. ✨
+**Fork → Improve → Pull Request.** All contributions are welcome. 
 
-⭐ **Star this repo** if it helped you. It helps other aspirants find it.
+ **Star this repo** if it helped you. It helps other aspirants find it.
 
 ---
 
