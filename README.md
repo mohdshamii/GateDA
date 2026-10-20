@@ -25,6 +25,7 @@ A **topic-wise, exam-focused** resource for the **GATE Data Science & Artificial
 -  Previous year GATE questions with solutions
 -  Short tricks and formula sheets for last-minute revision
 -  High-weightage topics highlighted
+-  A complete Test Series with Subject wise, topic wise mock test and Full Mock Test 
 
 ---
 
