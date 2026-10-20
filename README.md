@@ -46,6 +46,13 @@ A **topic-wise, exam-focused** resource for the **GATE Data Science & Artificial
 
 ---
 
+##  Test Series
+
+  | [Open Test Series](https://mohdshamii.github.io/Test-Series) | 
+
+---
+
+
 ##  The Boss Roster
 
 ```
