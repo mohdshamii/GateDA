@@ -112,7 +112,7 @@ Found a mistake or have better notes?
 
 **Made with a mild caffeine-induced sense of invincibility**
 
-*— [mohdshamii](https://mohdshamii.github.io/GateDA/)*
+*— [mohdshamii](https://mohdshamii.github.io)*
 
 `Last updated: October 2026`
 
