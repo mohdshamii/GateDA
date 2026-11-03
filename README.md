@@ -114,12 +114,8 @@ Found a mistake or have better notes?
 
 *— [mohdshamii](https://mohdshamii.github.io)*
 
-`Last updated: October 2026`
+`Last updated: November 2026`
 
 </div>
 
-<!--
-Keywords: GATE DA notes 2026 PDF, GATE Data Science and AI notes, GATE DA 2027,
-GATE DA previous year solutions, GATE DA Machine Learning, Python, Linear Algebra,
-Probability & Statistics, DSA, DBMS, Data Mining
--->
+
